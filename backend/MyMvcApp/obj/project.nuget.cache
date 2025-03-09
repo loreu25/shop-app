@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "m/5jGqYqm+I=",
+  "dgSpecHash": "3rlwi99eDpc=",
   "success": true,
-  "projectFilePath": "C:\\Progs\\Проги C#\\BackEnd\\MyMvcApp\\MyMvcApp.csproj",
+  "projectFilePath": "C:\\Progs\\CS\\shop-app\\backend\\MyMvcApp\\MyMvcApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Никита\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Никита\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\7.0.0\\microsoft.bcl.asyncinterfaces.7.0.0.nupkg.sha512",

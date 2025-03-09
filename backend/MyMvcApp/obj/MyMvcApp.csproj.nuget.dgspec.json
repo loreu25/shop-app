@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Progs\\Проги C#\\BackEnd\\MyMvcApp\\MyMvcApp.csproj": {}
+    "C:\\Progs\\CS\\shop-app\\backend\\MyMvcApp\\MyMvcApp.csproj": {}
   },
   "projects": {
-    "C:\\Progs\\Проги C#\\BackEnd\\MyMvcApp\\MyMvcApp.csproj": {
+    "C:\\Progs\\CS\\shop-app\\backend\\MyMvcApp\\MyMvcApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Progs\\Проги C#\\BackEnd\\MyMvcApp\\MyMvcApp.csproj",
+        "projectUniqueName": "C:\\Progs\\CS\\shop-app\\backend\\MyMvcApp\\MyMvcApp.csproj",
         "projectName": "MyMvcApp",
-        "projectPath": "C:\\Progs\\Проги C#\\BackEnd\\MyMvcApp\\MyMvcApp.csproj",
+        "projectPath": "C:\\Progs\\CS\\shop-app\\backend\\MyMvcApp\\MyMvcApp.csproj",
         "packagesPath": "C:\\Users\\Никита\\.nuget\\packages\\",
-        "outputPath": "C:\\Progs\\Проги C#\\BackEnd\\MyMvcApp\\obj\\",
+        "outputPath": "C:\\Progs\\CS\\shop-app\\backend\\MyMvcApp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Никита\\AppData\\Roaming\\NuGet\\NuGet.Config",

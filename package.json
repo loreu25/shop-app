@@ -1,0 +1,25 @@
+{
+  "name": "shop-app",
+  "version": "1.0.0",
+  "description": "Одностраничное приложение с фронтендом на React и бэкендом на ASP.NET MVC.",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"cd backend/MyMvcApp && dotnet run\" \"cd frontend && npm start\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loreu25/shop-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/loreu25/shop-app/issues"
+  },
+  "homepage": "https://github.com/loreu25/shop-app#readme",
+  "dependencies": {
+    "concurrently": "^9.1.2",
+    "webpack-dev-server": "^5.2.0"
+  }
+}
