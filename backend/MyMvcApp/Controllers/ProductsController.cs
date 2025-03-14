@@ -2,18 +2,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyMvcApp.Data;
 using MyMvcApp.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MyMvcApp.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductsController : ControllerBase
     {
         private readonly AppDbContext _context;
 
-        public ProductController(AppDbContext context)
+        public ProductsController(AppDbContext context)
         {
             _context = context;
         }
@@ -21,16 +21,16 @@ namespace MyMvcApp.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
+            Console.WriteLine("Запрос на /api/products получен. Токен: " + HttpContext.Request.Headers["Authorization"]);
             return await _context.Products.ToListAsync();
         }
 
-        // POST: api/products
         [HttpPost]
         public async Task<ActionResult<Product>> AddProduct(Product product)
         {
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetProducts), new { id = product.Id }, product);
-        }   
+        }
     }
 }

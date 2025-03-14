@@ -10,8 +10,8 @@ using MyMvcApp.Data;
 namespace MyMvcApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250306142036_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250314160121_AddEmailToUsers")]
+    partial class AddEmailToUsers
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -108,6 +108,38 @@ namespace MyMvcApp.Migrations
                             Image = "/images/8.jpg",
                             Price = 599.99m,
                             Title = "iPhone 14"
+                        });
+                });
+
+            modelBuilder.Entity("MyMvcApp.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "admin@example.com",
+                            PasswordHash = "$2a$11$RMd91092xos7W1fW2Njbsekd3wOugwkSGNE7XbKATkRx0GzXp0KqO",
+                            Username = "admin"
                         });
                 });
 #pragma warning restore 612, 618

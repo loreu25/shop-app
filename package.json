@@ -19,7 +19,9 @@
   },
   "homepage": "https://github.com/loreu25/shop-app#readme",
   "dependencies": {
-    "concurrently": "^9.1.2",
     "webpack-dev-server": "^5.2.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
   }
 }
