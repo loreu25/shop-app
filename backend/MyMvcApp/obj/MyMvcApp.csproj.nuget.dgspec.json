@@ -1,30 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\nikit\\Desktop\\Progs\\CS\\shop-app\\backend\\MyMvcApp\\MyMvcApp.csproj": {}
+    "C:\\Users\\Nikita\\Desktop\\Progs\\CS\\shop-app\\backend\\MyMvcApp\\MyMvcApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\nikit\\Desktop\\Progs\\CS\\shop-app\\backend\\MyMvcApp\\MyMvcApp.csproj": {
+    "C:\\Users\\Nikita\\Desktop\\Progs\\CS\\shop-app\\backend\\MyMvcApp\\MyMvcApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\nikit\\Desktop\\Progs\\CS\\shop-app\\backend\\MyMvcApp\\MyMvcApp.csproj",
+        "projectUniqueName": "C:\\Users\\Nikita\\Desktop\\Progs\\CS\\shop-app\\backend\\MyMvcApp\\MyMvcApp.csproj",
         "projectName": "MyMvcApp",
-        "projectPath": "C:\\Users\\nikit\\Desktop\\Progs\\CS\\shop-app\\backend\\MyMvcApp\\MyMvcApp.csproj",
-        "packagesPath": "C:\\Users\\nikit\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\nikit\\Desktop\\Progs\\CS\\shop-app\\backend\\MyMvcApp\\obj\\",
+        "projectPath": "C:\\Users\\Nikita\\Desktop\\Progs\\CS\\shop-app\\backend\\MyMvcApp\\MyMvcApp.csproj",
+        "packagesPath": "C:\\Users\\Nikita\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Nikita\\Desktop\\Progs\\CS\\shop-app\\backend\\MyMvcApp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\nikit\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Nikita\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
-          "net8.0"
+          "net9.0"
         ],
         "sources": {
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net8.0": {
-            "targetAlias": "net8.0",
+          "net9.0": {
+            "targetAlias": "net9.0",
             "projectReferences": {}
           }
         },
@@ -41,8 +41,8 @@
         "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
+        "net9.0": {
+          "targetAlias": "net9.0",
           "dependencies": {
             "BCrypt.Net-Next": {
               "target": "Package",
@@ -82,24 +82,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.14, 8.0.14]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[8.0.14, 8.0.14]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[8.0.14, 8.0.14]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[8.0.14, 8.0.14]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"

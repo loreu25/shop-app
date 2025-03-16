@@ -30,18 +30,13 @@ Shop-App позволяет пользователям:
 - **Node.js** (версия 16.x или выше)
 - **.NET 6 SDK**
 - **Git** (для клонирования репозитория)
-
+- **.NET** (версия 9.0)
 
 ## Структура
 - `frontend/` — React-приложение.
 - `backend/` — ASP.NET MVC бэкенд.
 
-## Запуск фронтенда
-1. `cd frontend`
-2. `npm install`
-3. `npm start`
-
-## Запуск бэкенда
-1. `cd backend`
-2. Открой `BackEnd.sln` в Visual Studio.
-3. Запусти проект.
+## Запуск
+1. `npm install concurrently`
+2. `cd frontend | npm install react-scripts`
+3. `cd.. | npm start`
