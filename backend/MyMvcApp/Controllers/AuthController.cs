@@ -6,6 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using MyMvcApp.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MyMvcApp.Controllers
 {
@@ -55,11 +56,24 @@ namespace MyMvcApp.Controllers
             return Ok(new { message = "Пользователь успешно зарегистрирован" });
         }
 
+        [HttpGet("user")]
+        [Authorize]
+        public IActionResult GetCurrentUser()
+        {
+            var email = User.FindFirst(ClaimTypes.Name)?.Value;
+            var user = _context.Users.FirstOrDefault(u => u.Email == email);
+            if (user == null)
+            {
+                return NotFound(new { message = "Пользователь не найден" });
+            }
+            return Ok(new { user.Id, user.Username, user.Email});
+        }
+
         private string GenerateJwtToken(string email)
         {
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, email), // Используем email как идентификатор
+                new Claim(ClaimTypes.Name, email),
                 new Claim(ClaimTypes.Role, "user"),
             };
 
@@ -71,7 +85,7 @@ namespace MyMvcApp.Controllers
                 issuer: "shop-app",
                 audience: "shop-app",
                 claims: claims,
-                expires: DateTime.Now.AddHours(1), // Исправлен синтаксис
+                expires: DateTime.Now.AddHours(1),
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

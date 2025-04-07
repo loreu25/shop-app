@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../services/api';
+import { register } from '../services/api';
 
-const Login = ({ setIsAuthenticated }) => {
+const Register = ({ setIsAuthenticated }) => {
+    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    const handleLogin = async (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault();
         try {
-            const data = await login(email, password);
-            localStorage.setItem('token', data.token);
-            setIsAuthenticated(true);
-            navigate('/dashboard');
+            await register(username, email, password);
+            navigate('/login');
         } catch (err) {
             setError(err.message);
         }
@@ -26,9 +25,20 @@ const Login = ({ setIsAuthenticated }) => {
                 <div className="col-md-6">
                     <div className="card">
                         <div className="card-body">
-                            <h2 className="card-title text-center mb-4">Вход</h2>
+                            <h2 className="card-title text-center mb-4">Регистрация</h2>
                             {error && <div className="alert alert-danger">{error}</div>}
-                            <form onSubmit={handleLogin}>
+                            <form onSubmit={handleRegister}>
+                                <div className="mb-3">
+                                    <label htmlFor="username" className="form-label">Имя пользователя</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="username"
+                                        value={username}
+                                        onChange={(e) => setUsername(e.target.value)}
+                                        required
+                                    />
+                                </div>
                                 <div className="mb-3">
                                     <label htmlFor="email" className="form-label">Email</label>
                                     <input
@@ -51,10 +61,10 @@ const Login = ({ setIsAuthenticated }) => {
                                         required
                                     />
                                 </div>
-                                <button type="submit" className="btn btn-primary w-100">Войти</button>
+                                <button type="submit" className="btn btn-primary w-100">Зарегистрироваться</button>
                             </form>
                             <p className="mt-3 text-center">
-                                Нет аккаунта? <a href="/register">Зарегистрироваться</a>
+                                Уже есть аккаунт? <a href="/login">Войти</a>
                             </p>
                         </div>
                     </div>
@@ -64,4 +74,4 @@ const Login = ({ setIsAuthenticated }) => {
     );
 };
 
-export default Login;
+export default Register;

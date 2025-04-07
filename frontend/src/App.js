@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
-import ProductsPage from './components/ProductsPage';
+import Register from './components/Register';
+import ProductsPage from './components/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
+import Profile from './components/Profile';
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -22,11 +24,23 @@ function App() {
                     path="/login"
                     element={<Login setIsAuthenticated={setIsAuthenticated} />}
                 />
+                <Route 
+                    path="/register" 
+                    element={<Register setIsAuthenticated={setIsAuthenticated} />} 
+                />
                 <Route
-                    path="/products"
+                    path="/dashboard"
                     element={
                         <PrivateRoute isAuthenticated={isAuthenticated}>
                             <ProductsPage setIsAuthenticated={setIsAuthenticated} />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/profile"
+                    element={
+                        <PrivateRoute isAuthenticated={isAuthenticated}>
+                            <Profile setIsAuthenticated={setIsAuthenticated} />
                         </PrivateRoute>
                     }
                 />

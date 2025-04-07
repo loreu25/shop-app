@@ -26,11 +26,45 @@ namespace MyMvcApp.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Product>> AddProduct(Product product)
-        {
+        [Authorize]
+        public IActionResult Create([FromBody] Product product) {
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
             _context.Products.Add(product);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetProducts), new { id = product.Id }, product);
+            _context.SaveChanges();
+            return Ok(product);
+        }
+
+        [HttpPut("{id}")]
+        [Authorize]
+        public IActionResult Update(int id, [FromBody] Product updatedProduct)
+        {
+            var product = _context.Products.Find(id);
+            if (product == null)
+            {
+                return NotFound(new { message = "Товар не найден" });
+            }
+            product.Title = updatedProduct.Title;
+            product.Price = updatedProduct.Price;
+            product.Description = updatedProduct.Description;
+            product.Image = updatedProduct.Image;
+            _context.SaveChanges();
+            return Ok(product);
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public IActionResult Delete(int id)
+        {
+            var product = _context.Products.Find(id);
+            if (product == null)
+            {
+                return NotFound(new { message = "Товар не найден" });
+            }
+            _context.Products.Remove(product);
+            _context.SaveChanges();
+            return Ok(new { message = "Товар удалён" });
         }
     }
 }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Nikita\\Desktop\\Progs\\CS\\shop-app\\backend\\MyMvcApp\\MyMvcApp.csproj": {}
+    "C:\\Users\\Nikita\\Desktop\\Лабы\\4 семестр\\Веб-программирование и дизайн\\лабораторная работа №3\\shop-app\\backend\\MyMvcApp\\MyMvcApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Nikita\\Desktop\\Progs\\CS\\shop-app\\backend\\MyMvcApp\\MyMvcApp.csproj": {
+    "C:\\Users\\Nikita\\Desktop\\Лабы\\4 семестр\\Веб-программирование и дизайн\\лабораторная работа №3\\shop-app\\backend\\MyMvcApp\\MyMvcApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Nikita\\Desktop\\Progs\\CS\\shop-app\\backend\\MyMvcApp\\MyMvcApp.csproj",
+        "projectUniqueName": "C:\\Users\\Nikita\\Desktop\\Лабы\\4 семестр\\Веб-программирование и дизайн\\лабораторная работа №3\\shop-app\\backend\\MyMvcApp\\MyMvcApp.csproj",
         "projectName": "MyMvcApp",
-        "projectPath": "C:\\Users\\Nikita\\Desktop\\Progs\\CS\\shop-app\\backend\\MyMvcApp\\MyMvcApp.csproj",
+        "projectPath": "C:\\Users\\Nikita\\Desktop\\Лабы\\4 семестр\\Веб-программирование и дизайн\\лабораторная работа №3\\shop-app\\backend\\MyMvcApp\\MyMvcApp.csproj",
         "packagesPath": "C:\\Users\\Nikita\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Nikita\\Desktop\\Progs\\CS\\shop-app\\backend\\MyMvcApp\\obj\\",
+        "outputPath": "C:\\Users\\Nikita\\Desktop\\Лабы\\4 семестр\\Веб-программирование и дизайн\\лабораторная работа №3\\shop-app\\backend\\MyMvcApp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Nikita\\AppData\\Roaming\\NuGet\\NuGet.Config"
