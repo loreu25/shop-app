@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { updateProduct, deleteProduct } from '../services/api';
 
+const API_URL = "http://localhost:5192";
+
 const ProductCard = ({ product, onUpdate, onDelete }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editedProduct, setEditedProduct] = useState({ ...product });
@@ -95,7 +97,7 @@ const ProductCard = ({ product, onUpdate, onDelete }) => {
             ) : (
                 <>
                     <img
-                        src={product.image}
+                        src={product.image && product.image.startsWith('/images') ? API_URL + product.image : product.image}
                         className="card-img-top"
                         alt={product.title}
                         style={{ height: '300px', objectFit: 'cover' }}

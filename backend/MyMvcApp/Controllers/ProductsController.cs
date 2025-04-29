@@ -27,12 +27,38 @@ namespace MyMvcApp.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult Create([FromBody] Product product) {
-            if (!ModelState.IsValid) {
-                return BadRequest(ModelState);
+        public async Task<IActionResult> Create(
+            [FromForm] string title,
+            [FromForm] decimal price,
+            [FromForm] string description,
+            [FromForm] IFormFile image)
+        {
+            if (image == null || image.Length == 0)
+                return BadRequest(new { message = "Изображение не выбрано" });
+
+            // Генерируем уникальное имя файла
+            var fileName = Guid.NewGuid() + Path.GetExtension(image.FileName);
+            var imagesPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
+            if (!Directory.Exists(imagesPath))
+                Directory.CreateDirectory(imagesPath);
+
+            var filePath = Path.Combine(imagesPath, fileName);
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await image.CopyToAsync(stream);
             }
+
+            var product = new Product
+            {
+                Title = title,
+                Price = price,
+                Description = description,
+                Image = $"/images/{fileName}"
+            };
+
             _context.Products.Add(product);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
+
             return Ok(product);
         }
 
@@ -48,6 +74,16 @@ namespace MyMvcApp.Controllers
             product.Title = updatedProduct.Title;
             product.Price = updatedProduct.Price;
             product.Description = updatedProduct.Description;
+
+            // Удаление старого изображения, если оно меняется и не дефолтное
+            if (product.Image != updatedProduct.Image && !string.IsNullOrEmpty(product.Image) && product.Image.StartsWith("/images/"))
+            {
+                var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", product.Image.TrimStart('/').Replace("/", Path.DirectorySeparatorChar.ToString()));
+                if (System.IO.File.Exists(oldImagePath))
+                {
+                    try { System.IO.File.Delete(oldImagePath); } catch {}
+                }
+            }
             product.Image = updatedProduct.Image;
             _context.SaveChanges();
             return Ok(product);
@@ -61,6 +97,15 @@ namespace MyMvcApp.Controllers
             if (product == null)
             {
                 return NotFound(new { message = "Товар не найден" });
+            }
+            // Удаляем изображение с диска, если оно не дефолтное
+            if (!string.IsNullOrEmpty(product.Image) && product.Image.StartsWith("/images/"))
+            {
+                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", product.Image.TrimStart('/').Replace("/", Path.DirectorySeparatorChar.ToString()));
+                if (System.IO.File.Exists(imagePath))
+                {
+                    try { System.IO.File.Delete(imagePath); } catch {}
+                }
             }
             _context.Products.Remove(product);
             _context.SaveChanges();

@@ -48,19 +48,14 @@ export const getProducts = async (token) => {
     return response.json();
 };
 
-export const createProduct = async (product, token) => {
+export const createProduct = async (formData, token) => {
     const response = await fetch(`${API_URL}/api/products`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
+            // Content-Type не указываем, браузер сам выставит boundary для FormData
         },
-        body: JSON.stringify({
-            title: product.name,
-            price: product.price,
-            image: product.image,
-            description: product.description || ''
-        })
+        body: formData
     });
     if (!response.ok) {
         const errorData = await response.json();

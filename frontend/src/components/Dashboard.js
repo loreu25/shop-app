@@ -41,10 +41,17 @@ const Dashboard = ({ setIsAuthenticated }) => {
         try {
             setLoading(true);
             const token = localStorage.getItem('token');
-            const createdProduct = await createProduct(newProduct, token);
+            const formData = new FormData();
+            formData.append('title', newProduct.name);
+            formData.append('price', newProduct.price);
+            formData.append('description', newProduct.description || '');
+            if (newProduct.image) {
+                formData.append('image', newProduct.image);
+            }
+            const createdProduct = await createProduct(formData, token);
             setProducts([...products, createdProduct]);
             console.log('Созданный товар:', createdProduct);
-            setNewProduct({ name: '', price: 0, image: '', description: '' });
+            setNewProduct({ name: '', price: 0, image: null, description: '' });
             setShowModal(false); // Закрываем модальное окно
         } catch (err) {
             setError(err.message);
@@ -127,7 +134,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
                                 <label htmlFor="price" className="form-label">Цена ($)</label>
                                     <input
                                         type="number"
-                                        step="0.01" // Позволяет вводить дробные числа
+                                        step="0.01"
                                         className="form-control"
                                         id="price"
                                         value={newProduct.price}
@@ -145,13 +152,13 @@ const Dashboard = ({ setIsAuthenticated }) => {
                                     />
                                 </div>
                                 <div className="mb-3">
-                                    <label htmlFor="image" className="form-label">URL изображения</label>
+                                    <label htmlFor="image" className="form-label">Изображение</label>
                                     <input
-                                        type="text"
+                                        type="file"
                                         className="form-control"
                                         id="image"
-                                        value={newProduct.image}
-                                        onChange={(e) => setNewProduct({ ...newProduct, image: e.target.value })}
+                                        accept="image/*"
+                                        onChange={e => setNewProduct({ ...newProduct, image: e.target.files[0] })}
                                         required
                                     />
                                 </div>
