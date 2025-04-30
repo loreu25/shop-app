@@ -13,6 +13,7 @@ const Login = ({ setIsAuthenticated }) => {
         try {
             const data = await login(email, password);
             localStorage.setItem('token', data.token);
+            localStorage.setItem('role', data.role); // сохраняем роль
             setIsAuthenticated(true);
             navigate('/dashboard');
         } catch (err) {

@@ -122,6 +122,10 @@ namespace MyMvcApp.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -136,7 +140,16 @@ namespace MyMvcApp.Migrations
                             Id = 1,
                             Email = "admin@example.com",
                             PasswordHash = "$2a$11$RMd91092xos7W1fW2Njbsekd3wOugwkSGNE7XbKATkRx0GzXp0KqO",
+                            Role = "admin",
                             Username = "admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "customer@example.com",
+                            PasswordHash = "$2a$11$3IG4DPsuSYt799kRntnFPOAo9WENM/NsALVX2EqEupyKL3G7ao/KS",
+                            Role = "customer",
+                            Username = "customer"
                         });
                 });
 #pragma warning restore 612, 618

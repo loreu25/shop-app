@@ -3,7 +3,7 @@ import { updateProduct, deleteProduct } from '../services/api';
 
 const API_URL = "http://localhost:5192";
 
-const ProductCard = ({ product, onUpdate, onDelete }) => {
+const ProductCard = ({ product, onUpdate, onDelete, onAddToCart }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editedProduct, setEditedProduct] = useState({ ...product });
 
@@ -28,6 +28,9 @@ const ProductCard = ({ product, onUpdate, onDelete }) => {
             console.error(err.message);
         }
     };
+
+    // Получаем роль пользователя из localStorage
+    const role = localStorage.getItem('role');
 
     return (
         <div className="card" style={{ width: '18rem', marginBottom: '20px', border: '1px solid #ddd' }}>
@@ -109,20 +112,33 @@ const ProductCard = ({ product, onUpdate, onDelete }) => {
                             ${product.price}
                         </p>
                         <div className="d-flex justify-content-center gap-2">
-                            <button
-                                className="btn btn-primary btn-sm"
-                                onClick={() => setIsEditing(true)}
-                                style={{ padding: '6px 12px', fontSize: '14px' }}
-                            >
-                                Редактировать
-                            </button>
-                            <button
-                                className="btn btn-danger btn-sm"
-                                onClick={handleDelete}
-                                style={{ padding: '6px 12px', fontSize: '14px' }}
-                            >
-                                Удалить
-                            </button>
+                            {role === 'admin' && (
+                                <>
+                                    <button
+                                        className="btn btn-primary btn-sm"
+                                        onClick={() => setIsEditing(true)}
+                                        style={{ padding: '6px 12px', fontSize: '14px' }}
+                                    >
+                                        Редактировать
+                                    </button>
+                                    <button
+                                        className="btn btn-danger btn-sm"
+                                        onClick={handleDelete}
+                                        style={{ padding: '6px 12px', fontSize: '14px' }}
+                                    >
+                                        Удалить
+                                    </button>
+                                </>
+                            )}
+                            {role === 'customer' && (
+                                <button
+                                    className="btn btn-success btn-sm"
+                                    onClick={() => onAddToCart(product)}
+                                    style={{ padding: '6px 12px', fontSize: '14px' }}
+                                >
+                                    Добавить в корзину
+                                </button>
+                            )}
                         </div>
                     </div>
                 </>

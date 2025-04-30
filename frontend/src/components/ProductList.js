@@ -1,7 +1,7 @@
 import React from 'react';
 import ProductCard from './ProductCard';
 
-const ProductList = ({ products, setProducts }) => {
+const ProductList = ({ products, setProducts, onAddToCart }) => {
     const handleUpdate = (updatedProduct) => {
         setProducts(products.map(p => p.id === updatedProduct.id ? updatedProduct : p));
     };
@@ -20,6 +20,7 @@ const ProductList = ({ products, setProducts }) => {
                                 product={product}
                                 onUpdate={handleUpdate}
                                 onDelete={handleDelete}
+                                onAddToCart={onAddToCart}
                             />
                         </div>
                     ))

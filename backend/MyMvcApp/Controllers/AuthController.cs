@@ -30,8 +30,8 @@ namespace MyMvcApp.Controllers
                 return Unauthorized(new { message = "Неверный email или пароль" });
             }
 
-            var token = GenerateJwtToken(user.Email);
-            return Ok(new { token });
+            var token = GenerateJwtToken(user);
+            return Ok(new { token, role = user.Role, username = user.Username });
         }
 
         [HttpPost("register")]
@@ -47,7 +47,8 @@ namespace MyMvcApp.Controllers
             {
                 Username = model.Username,
                 Email = model.Email,
-                PasswordHash = passwordHash
+                PasswordHash = passwordHash,
+                Role = "customer"
             };
 
             _context.Users.Add(user);
@@ -69,12 +70,13 @@ namespace MyMvcApp.Controllers
             return Ok(new { user.Id, user.Username, user.Email});
         }
 
-        private string GenerateJwtToken(string email)
+        private string GenerateJwtToken(User user)
         {
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, email),
-                new Claim(ClaimTypes.Role, "user"),
+                new Claim(ClaimTypes.Name, user.Email),
+                new Claim(ClaimTypes.Role, user.Role),
+                new Claim("username", user.Username)
             };
 
             var key = new SymmetricSecurityKey(

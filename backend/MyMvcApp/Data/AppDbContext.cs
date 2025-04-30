@@ -27,14 +27,23 @@ namespace MyMvcApp.Data
                 new Product { Id = 8, Title = "iPhone 14", Description = "iPhone 14 128 ГБ", Price = 599.99m, Image = "/images/8.jpg" }
             );
             modelBuilder.Entity<User>().HasData(
-                new User
-                {
-                    Id = 1,
-                    Username = "admin",
-                    Email = "admin@example.com",
-                    PasswordHash = "$2a$11$RMd91092xos7W1fW2Njbsekd3wOugwkSGNE7XbKATkRx0GzXp0KqO"
-                }
-            );
+        new User
+        {
+            Id = 1,
+            Username = "admin",
+            Email = "admin@example.com",
+            PasswordHash = "$2a$11$RMd91092xos7W1fW2Njbsekd3wOugwkSGNE7XbKATkRx0GzXp0KqO", // пароль: admin123
+            Role = "admin"
+        },
+        new User
+        {
+            Id = 2,
+            Username = "customer",
+            Email = "customer@example.com",
+            PasswordHash = "$2a$11$3IG4DPsuSYt799kRntnFPOAo9WENM/NsALVX2EqEupyKL3G7ao/KS", // пароль: customer123
+            Role = "customer"
+        }
+    );
         }
     }
 }

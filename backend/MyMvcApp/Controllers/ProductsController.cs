@@ -26,7 +26,7 @@ namespace MyMvcApp.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Create(
             [FromForm] string title,
             [FromForm] decimal price,
@@ -63,7 +63,7 @@ namespace MyMvcApp.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public IActionResult Update(int id, [FromBody] Product updatedProduct)
         {
             var product = _context.Products.Find(id);
@@ -90,7 +90,7 @@ namespace MyMvcApp.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public IActionResult Delete(int id)
         {
             var product = _context.Products.Find(id);

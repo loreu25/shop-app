@@ -7,7 +7,7 @@
 namespace MyMvcApp.Migrations
 {
     /// <inheritdoc />
-    public partial class AddEmailToUsers : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,7 +36,8 @@ namespace MyMvcApp.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Username = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
-                    PasswordHash = table.Column<string>(type: "TEXT", nullable: false)
+                    PasswordHash = table.Column<string>(type: "TEXT", nullable: false),
+                    Role = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -60,8 +61,12 @@ namespace MyMvcApp.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Email", "PasswordHash", "Username" },
-                values: new object[] { 1, "admin@example.com", "$2a$11$RMd91092xos7W1fW2Njbsekd3wOugwkSGNE7XbKATkRx0GzXp0KqO", "admin" });
+                columns: new[] { "Id", "Email", "PasswordHash", "Role", "Username" },
+                values: new object[,]
+                {
+                    { 1, "admin@example.com", "$2a$11$RMd91092xos7W1fW2Njbsekd3wOugwkSGNE7XbKATkRx0GzXp0KqO", "admin", "admin" },
+                    { 2, "customer@example.com", "$2a$11$3IG4DPsuSYt799kRntnFPOAo9WENM/NsALVX2EqEupyKL3G7ao/KS", "customer", "customer" }
+                });
         }
 
         /// <inheritdoc />

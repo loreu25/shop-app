@@ -10,8 +10,8 @@ using MyMvcApp.Data;
 namespace MyMvcApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250314160121_AddEmailToUsers")]
-    partial class AddEmailToUsers
+    [Migration("20250430080941_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -125,6 +125,10 @@ namespace MyMvcApp.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -139,7 +143,16 @@ namespace MyMvcApp.Migrations
                             Id = 1,
                             Email = "admin@example.com",
                             PasswordHash = "$2a$11$RMd91092xos7W1fW2Njbsekd3wOugwkSGNE7XbKATkRx0GzXp0KqO",
+                            Role = "admin",
                             Username = "admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "customer@example.com",
+                            PasswordHash = "$2a$11$3IG4DPsuSYt799kRntnFPOAo9WENM/NsALVX2EqEupyKL3G7ao/KS",
+                            Role = "customer",
+                            Username = "customer"
                         });
                 });
 #pragma warning restore 612, 618
