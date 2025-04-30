@@ -38,8 +38,11 @@ const Profile = ({ setIsAuthenticated }) => {
                 <div className="card">
                     <div className="card-body">
                         <h4 className="card-title">Информация о пользователе</h4>
+                        <p><strong>ID:</strong> {user.id}</p>
+                        <p><strong>Роль:</strong> {user.role}</p>
                         <p><strong>Username:</strong> {user.username}</p>
                         <p><strong>Email:</strong> {user.email}</p>
+                        <button className="btn btn-outline-primary mt-3" onClick={() => navigate(-1)}>Назад</button>
                     </div>
                 </div>
             ) : (

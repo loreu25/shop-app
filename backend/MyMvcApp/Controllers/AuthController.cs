@@ -67,7 +67,7 @@ namespace MyMvcApp.Controllers
             {
                 return NotFound(new { message = "Пользователь не найден" });
             }
-            return Ok(new { user.Id, user.Username, user.Email});
+            return Ok(new { user.Id, user.Username, user.Email, user.Role });
         }
 
         private string GenerateJwtToken(User user)
