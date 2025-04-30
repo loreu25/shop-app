@@ -48,6 +48,30 @@ export const getProducts = async (token) => {
     return response.json();
 };
 
+// Обновить stock товара
+export const updateProductStock = async (product, token) => {
+    const response = await fetch(`${API_URL}/api/products/${product.id}`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: product.id,
+            title: product.title,
+            price: product.price,
+            description: product.description,
+            image: product.image || "",
+            stock: product.stock
+        })
+    });
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Ошибка при обновлении товара');
+    }
+    return response.json();
+};
+
 export const createProduct = async (formData, token) => {
     const response = await fetch(`${API_URL}/api/products`, {
         method: 'POST',

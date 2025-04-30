@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom'; // Добавляем Link для перехода
 import ProductList from '../components/ProductList';
 import Cart from '../components/Cart';
-import { getProducts, createProduct } from '../services/api';
+import { getProducts, createProduct, updateProductStock } from '../services/api';
 
 const Dashboard = ({ setIsAuthenticated }) => {
     const [products, setProducts] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const [newProduct, setNewProduct] = useState({ name: '', price: 0, image: '' });
+    const [newProduct, setNewProduct] = useState({ name: '', price: 0, image: '', description: '', stock: 0 });
     const [showModal, setShowModal] = useState(false); // Состояние для модального окна
     const [showCart, setShowCart] = useState(false); // Состояние корзины
     const [cartItems, setCartItems] = useState([]);
@@ -53,13 +53,14 @@ const Dashboard = ({ setIsAuthenticated }) => {
             formData.append('title', newProduct.name);
             formData.append('price', newProduct.price);
             formData.append('description', newProduct.description || '');
+            formData.append('stock', newProduct.stock);
             if (newProduct.image) {
                 formData.append('image', newProduct.image);
             }
             const createdProduct = await createProduct(formData, token);
             setProducts([...products, createdProduct]);
             console.log('Созданный товар:', createdProduct);
-            setNewProduct({ name: '', price: 0, image: null, description: '' });
+            setNewProduct({ name: '', price: 0, image: null, description: '', stock: 0 });
             setShowModal(false); // Закрываем модальное окно
         } catch (err) {
             setError(err.message);
@@ -85,15 +86,63 @@ const Dashboard = ({ setIsAuthenticated }) => {
     };
 
     // Добавить товар в корзину
-    const handleAddToCart = (product) => {
-        if (!cartItems.find(item => item.id === product.id)) {
-            const updatedCart = [...cartItems, product];
-            setCartItems(updatedCart);
-            localStorage.setItem('cart', JSON.stringify(updatedCart));
-            alert('Добавлено в корзину!');
-        } else {
-            alert('Этот товар уже в корзине!');
+    const handleAddToCart = (product, quantity) => {
+        if (product.stock <= 0) {
+            alert('Товар закончился!');
+            return;
         }
+        const existing = cartItems.find(item => item.id === product.id);
+        let updatedCart;
+        if (existing) {
+            // Обновляем количество, но не превышаем stock
+            updatedCart = cartItems.map(item =>
+                item.id === product.id
+                    ? { ...item, quantity: Math.min(item.quantity + quantity, product.stock) }
+                    : item
+            );
+        } else {
+            updatedCart = [...cartItems, { ...product, quantity: quantity }];
+        }
+        setCartItems(updatedCart);
+        localStorage.setItem('cart', JSON.stringify(updatedCart));
+        alert('Добавлено в корзину!');
+    };
+
+    // Обработчик покупки: уменьшить stock у товаров
+    const handleCheckout = async () => {
+        const token = localStorage.getItem('token');
+        try {
+            // Для каждого товара из корзины отправить запрос на сервер
+            for (const cartItem of cartItems) {
+                const product = products.find(p => p.id === cartItem.id);
+                if (product) {
+                    await updateProductStock({
+                        ...product,
+                        stock: product.stock - cartItem.quantity
+                    }, token);
+                }
+            }
+            // Обновить список товаров с сервера
+            const data = await getProducts(token);
+            setProducts(data);
+            setCartItems([]);
+            setShowCart(false);
+            localStorage.setItem('cart', '[]');
+            alert('Покупка совершена!');
+        } catch (error) {
+            alert('Ошибка при оформлении заказа: ' + error.message);
+        }
+    };
+
+
+
+    // Обработчик изменения количества товара в корзине
+    const handleUpdateQuantity = (id, quantity) => {
+        const updatedCart = cartItems.map(item =>
+            item.id === id ? { ...item, quantity } : item
+        );
+        setCartItems(updatedCart);
+        localStorage.setItem('cart', JSON.stringify(updatedCart));
     };
 
     return (
@@ -173,7 +222,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
                                         />
                                     </div>
                                     <div className="mb-3">
-                                    <label htmlFor="price" className="form-label">Цена ($)</label>
+                                        <label htmlFor="price" className="form-label">Цена ($)</label>
                                         <input
                                             type="number"
                                             step="0.01"
@@ -182,7 +231,6 @@ const Dashboard = ({ setIsAuthenticated }) => {
                                             value={newProduct.price}
                                             onChange={(e) => {
                                                 const value = e.target.value;
-                                                // Если поле пустое, устанавливаем пустую строку
                                                 if (value === '') {
                                                     setNewProduct({ ...newProduct, price: '' });
                                                 } else {
@@ -191,6 +239,18 @@ const Dashboard = ({ setIsAuthenticated }) => {
                                                 }
                                             }}
                                             required
+                                        />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label htmlFor="stock" className="form-label">В наличии</label>
+                                        <input
+                                            type="number"
+                                            className="form-control"
+                                            id="stock"
+                                            value={newProduct.stock}
+                                            onChange={(e) => setNewProduct({ ...newProduct, stock: Math.max(0, parseInt(e.target.value) || 0) })}
+                                            required
+                                            min="0"
                                         />
                                     </div>
                                     <div className="mb-3">
@@ -213,8 +273,6 @@ const Dashboard = ({ setIsAuthenticated }) => {
                     </div>
                 </div>
             )}
-
-            {/* Модальное окно корзины для customer */}
             {role === 'customer' && showCart && (
                 <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
                     <div className="modal-dialog modal-dialog-centered">
@@ -224,7 +282,12 @@ const Dashboard = ({ setIsAuthenticated }) => {
                                 <button type="button" className="btn-close" onClick={() => setShowCart(false)}></button>
                             </div>
                             <div className="modal-body">
-                                <Cart cartItems={cartItems} onRemove={handleRemoveFromCart} onCheckout={() => { setCartItems([]); setShowCart(false); }} />
+                                <Cart 
+                                    cartItems={cartItems} 
+                                    onRemove={handleRemoveFromCart} 
+                                    onCheckout={handleCheckout}
+                                    onUpdateQuantity={handleUpdateQuantity}
+                                />
                             </div>
                         </div>
                     </div>

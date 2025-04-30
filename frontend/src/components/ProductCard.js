@@ -71,6 +71,16 @@ const ProductCard = ({ product, onUpdate, onDelete, onAddToCart }) => {
                             style={{ padding: '8px', fontSize: '14px' }}
                         />
                         <input
+                            type="number"
+                            className="form-control mb-2"
+                            value={editedProduct.stock}
+                            min={0}
+                            onChange={e => setEditedProduct({ ...editedProduct, stock: Math.max(0, parseInt(e.target.value) || 0) })}
+                            required
+                            placeholder="В наличии"
+                            style={{ padding: '8px', fontSize: '14px' }}
+                        />
+                        <input
                             type="text"
                             className="form-control mb-2"
                             value={editedProduct.image}
@@ -109,8 +119,14 @@ const ProductCard = ({ product, onUpdate, onDelete, onAddToCart }) => {
                         <h5 className="card-title">{product.title}</h5>
                         <p className="card-text">{product.description}</p>
                         <p className="card-price" style={{ fontSize: '24px' }}>
-                            ${product.price}
+                            <b>${product.price}</b>
                         </p>
+                        {product.stock === 0 && (
+                            <div className="alert alert-warning text-center p-1 mb-2" style={{ fontSize: '14px' }}>
+                                Нет в наличии
+                            </div>
+                        )}
+                        <p className="text-muted mb-2">В наличии: {product.stock}</p>
                         <div className="d-flex justify-content-center gap-2">
                             {role === 'admin' && (
                                 <>
@@ -132,17 +148,44 @@ const ProductCard = ({ product, onUpdate, onDelete, onAddToCart }) => {
                             )}
                             {role === 'customer' && (
                                 <button
-                                    className="btn btn-success btn-sm"
+                                    className="btn btn-success"
                                     onClick={() => onAddToCart(product)}
-                                    style={{ padding: '6px 12px', fontSize: '14px' }}
+                                    disabled={product.stock === 0}
                                 >
-                                    Добавить в корзину
+                                    В корзину
                                 </button>
                             )}
                         </div>
                     </div>
                 </>
             )}
+        </div>
+    );
+};
+
+// Компонент для выбора количества и добавления в корзину (только для customer)
+const CustomerCartControls = ({ product, onAddToCart }) => {
+    const [quantity, setQuantity] = React.useState(1);
+    const max = product.stock || 1;
+    return (
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            <input
+                type="number"
+                min={1}
+                max={max}
+                value={quantity}
+                onChange={e => setQuantity(Math.max(1, Math.min(max, parseInt(e.target.value) || 1)))}
+                style={{ width: '60px', fontSize: '14px' }}
+                disabled={max === 0}
+            />
+            <button
+                className="btn btn-success btn-sm"
+                onClick={() => onAddToCart(product, quantity)}
+                style={{ padding: '6px 12px', fontSize: '14px' }}
+                disabled={max === 0}
+            >
+                {max === 0 ? 'Нет в наличии' : 'В корзину'}
+            </button>
         </div>
     );
 };

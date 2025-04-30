@@ -31,6 +31,7 @@ namespace MyMvcApp.Controllers
             [FromForm] string title,
             [FromForm] decimal price,
             [FromForm] string description,
+            [FromForm] int stock,
             [FromForm] IFormFile image)
         {
             if (image == null || image.Length == 0)
@@ -53,6 +54,7 @@ namespace MyMvcApp.Controllers
                 Title = title,
                 Price = price,
                 Description = description,
+                Stock = stock,
                 Image = $"/images/{fileName}"
             };
 
@@ -63,7 +65,7 @@ namespace MyMvcApp.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "admin")]
+        [Authorize]
         public IActionResult Update(int id, [FromBody] Product updatedProduct)
         {
             var product = _context.Products.Find(id);
@@ -74,6 +76,7 @@ namespace MyMvcApp.Controllers
             product.Title = updatedProduct.Title;
             product.Price = updatedProduct.Price;
             product.Description = updatedProduct.Description;
+            product.Stock = updatedProduct.Stock;
 
             // Удаление старого изображения, если оно меняется и не дефолтное
             if (product.Image != updatedProduct.Image && !string.IsNullOrEmpty(product.Image) && product.Image.StartsWith("/images/"))
